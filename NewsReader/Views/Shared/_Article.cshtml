@@ -1,0 +1,14 @@
+﻿@model NewsReader.Models.ArticleModels
+
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="panel-left">
+
+            @Html.ActionLink(Model.Title, "ViewDetails", "Home", new { title = Model.Title }, new { @class = "modal-link" })
+
+            <p>@Html.DisplayFor(model => model.PublishedAt)</p>
+
+        </div>
+    </div>
+</div>
+

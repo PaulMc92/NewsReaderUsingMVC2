@@ -1,0 +1,41 @@
+﻿@model PagedList.IPagedList<NewsReader.Models.ArticleModels>
+
+@using PagedList.Mvc;
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+@{
+    ViewBag.Title = "BBC News";
+}
+
+<h2>Students</h2>
+
+@using (Html.BeginForm("Index", "Student", FormMethod.Get))
+{
+    <p>
+        Find by name: @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+        <input type="submit" value="Search" />
+    </p>
+}
+
+<span class="row">
+    <b>Sort By:</b>
+    @Html.ActionLink("Default", "Index", new { sortOrder = string.Empty, currentFilter = ViewBag.CurrentFilter })
+    @Html.ActionLink("Title", "Index", new { sortOrder = ViewBag.NameSortParm, currentFilter = ViewBag.CurrentFilter })
+    @Html.ActionLink("Published Date", "Index", new { sortOrder = ViewBag.DateSortParm, currentFilter = ViewBag.CurrentFilter })
+
+</span>
+
+        <ul class="list-group">
+            @foreach (var item in Model)
+            {
+                @Html.Partial("_Article", item)
+            }
+        </ul>
+
+
+
+        <br />
+        Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount
+
+        @Html.PagedListPager(Model, page => Url.Action("Index",
+    new { page, sortOrder = ViewBag.CurrentSort, currentFilter = ViewBag.CurrentFilter }))
